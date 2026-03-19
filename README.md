@@ -22,19 +22,17 @@ The skill is opinionated about process:
 - preserve behavior unless the user explicitly asks for behavior changes
 - use `KISS`, `DRY`, `YAGNI`, `SRP`, and separation of concerns as active refactor constraints
 
-## Agent Mesh
+## Validation Roles
 
-The skill uses a capability-oriented mesh of subagents:
+The skill centers on one principal workflow and a small set of validation roles:
 
-- `Observability Agent`
-- `Blueprint Architect`
-- `Refactoring Engine`
-- `Regression Sentinel`
-- `Execution Orchestrator`
-- `Governance & Compliance`
-- `Synthesis Reporting`
+- architecture
+- contracts
+- execution
+- maintainability
+- governance
 
-These roles are defined in [`references/agents/`](./references/agents) and activated only as needed.
+These roles are usually applied as a checklist by one agent. Extra delegation is optional, not the default path.
 
 ## Repository Layout
 
@@ -60,6 +58,10 @@ safe-refactor-engine/
 
 - The principal agent must clarify intent only when the request is materially ambiguous.
 - Technical uncertainty about libraries, APIs, commands, or framework behavior should be resolved with local tooling, official docs, or MCPs before asking the user.
+- Quick and Standard mode should work from the main `SKILL.md` alone; references are support material, not required startup context.
+- The agent should estimate blast radius before editing. If the likely impact exceeds 5 files, it should escalate to a deeper workflow.
+- Each slice should include a rollback point and immediate verification.
+- In typed or compiled stacks, the agent should run the narrowest available lint, build, or type-check after each slice.
 - Refactors should be executed in small slices with verification after each step.
 - Reports should target terminal or chat, not Slack or dashboards.
 
@@ -73,7 +75,7 @@ The UI metadata lives here:
 
 - [`skills/safe-refactor-engine/agents/openai.yaml`](./skills/safe-refactor-engine/agents/openai.yaml)
 
-Shared references live here:
+Optional deep references live here:
 
 - [`references/workflow.md`](./references/workflow.md)
 - [`references/slicing.md`](./references/slicing.md)

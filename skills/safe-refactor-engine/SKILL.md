@@ -9,6 +9,21 @@ Use this skill to turn a refactor request into a controlled sequence of small, v
 
 Default to conservative execution. Preserve observable behavior unless the user explicitly asks for behavior change.
 
+## Quick Cheat Sheet
+
+Use this section directly in Quick and Standard mode before opening any optional references.
+
+- if you cannot describe the invariant of a slice in one sentence, the slice is too large
+- prefer this slice order by default: add seam, move one responsibility, update callers, remove obsolete code
+- avoid mixing rename, reformat, and logic movement in the same slice
+- if rollback would be messy, split the slice further
+- prefer seams around side effects, state mutation, and public entrypoints
+- reject vague abstractions like `Manager`, `Processor`, `Helper`, or thin wrappers that only forward calls
+- reject indirection that hides data flow without reducing coupling
+- if a local change needs whole-repo verification to feel safe, treat it as higher risk and reconsider slice size
+
+Treat the bundled references as optional deepening material, not prerequisites for normal use.
+
 ## Core Principles
 
 Apply these principles as decision rules during the refactor:
@@ -66,6 +81,13 @@ Confirm these invariants from the local codebase:
 
 If behavior is underspecified, preserve current observable behavior by default and state that assumption.
 
+Also estimate blast radius before planning edits:
+
+- search for direct callers, imports, references, exports, routes, handlers, events, or other usage sites of the target
+- count the affected files, not just the number of matches
+- if the likely impact reaches more than 5 files, upgrade to **Deep** mode unless the user explicitly constrained the scope narrower
+- if the blast radius is unclear, keep exploring before editing
+
 ### Step 3: Read Before Writing
 Inspect only the code needed to answer these questions:
 
@@ -81,9 +103,9 @@ If the skill relies on bundled references, read only the specific files needed b
 
 Reference guide:
 
-- read `references/slicing.md` when the safe slice order is unclear
-- read `references/patterns.md` when choosing between common refactor moves
-- read `references/verification.md` when selecting the smallest trustworthy check
+- read `references/slicing.md` only when the safe slice order is unclear after applying the cheat sheet
+- read `references/patterns.md` only when multiple refactor moves still look equally safe
+- read `references/verification.md` only when the smallest trustworthy check is not obvious
 - read `references/evaluation.md` when validating whether the skill behaves correctly on realistic prompts
 - read `references/real-world-validation.md` when validating the skill against an actual refactor task
 
@@ -109,6 +131,7 @@ Express the refactor as 1 to 5 behavior-preserving slices. Each slice must have:
 - the files it touches
 - the invariant it preserves
 - the verification to run immediately after the slice
+- a rollback action that returns only that slice to the last verified state
 
 Prefer sequences like:
 
@@ -119,6 +142,12 @@ Prefer sequences like:
 
 Do not mix structural moves with logic changes unless the user explicitly asked for both.
 If a behavior change appears necessary during a structural refactor, stop and either split it into a separate slice or ask the user to approve the behavior change explicitly.
+
+Prefer rollback actions that are local and explicit:
+
+- restore only the touched files to the last verified state with the repo's version-control tool when available
+- if version control is unavailable, note the manual rollback boundary before editing
+- do not propose destructive rollback commands that can wipe unrelated user work
 
 ### Step 6: Run a Pre-Write Check
 Before editing, verify:
@@ -139,9 +168,10 @@ In monorepos or multi-package repos, prefer package-local checks for the target 
 Before the first edit, inspect version-control state when available:
 
 - run `git status --short` or the local equivalent if available
+- prefer a clean worktree before starting execution
+- if the repo is dirty, default to **Dry-Run** or stop for user approval unless the request explicitly allows operating around existing local changes
 - do not overwrite or revert unrelated user changes
 - prefer atomic commits per completed slice when the environment and user workflow allow it
-- if the repo is dirty, work carefully around unrelated changes instead of cleaning the tree
 - if relevant checks are already failing before the refactor, record that baseline failure state before editing so later failures are compared against known pre-existing breakage
 
 ### Step 7: Validate From Multiple Perspectives
@@ -151,14 +181,15 @@ Before and after each meaningful slice, evaluate the change from these perspecti
 2. **Contracts**: did any public interface, data shape, side effect, or persistence behavior drift unintentionally?
 3. **Execution**: what is the smallest trustworthy command that can prove the slice still works?
 4. **Maintainability**: did the new code become easier to read and change, or did it introduce AI-shaped indirection?
+5. **Governance**: does the result still respect KISS, DRY, YAGNI, SRP, and separation of concerns without speculative layering?
 
-Use actual sub-agents only if the environment supports them and delegation materially helps. Otherwise, apply these perspectives directly as a single-agent checklist.
+Treat these as validation roles, not mandatory sub-agents. Use actual delegation only if the environment supports it and it materially helps; otherwise, apply the roles directly as a single-agent checklist.
 
 ### Step 8: Execute and Verify Per Slice
 After each slice:
 
 - run the smallest meaningful test or check
-- run the type-checker for typed stacks whenever available
+- for statically typed or compiled stacks, run the compile or syntax check and the type-checker or linter after every slice whenever the repo exposes such checks
 - inspect interface and contract drift
 - confirm side effects still happen in the right place
 - stop if the evidence contradicts the plan
@@ -172,11 +203,12 @@ Verification priority:
 
 Use the repository's actual command names and scripts when available. Do not assume `tsc`, `pytest`, `cargo test`, or similar defaults if the project defines its own wrappers or task aliases.
 If the baseline is already red, compare the post-slice result against the pre-refactor failure state and report only new or changed breakage as potential slice regressions.
+If a typed or compiled repo exposes both lint and build or type-check commands, prefer the narrowest relevant pair after each slice.
 
 ### Step 9: Handle Failure Explicitly
 If a slice fails:
 
-- make at most 1 to 2 focused repair attempts
+- make 1 focused repair attempt by default; a second attempt is allowed only if the failure mode is concrete and local
 - if the slice does not stabilize, revert only that slice to the last verified functional state
 - report the blocker, evidence, and safest next seam instead of leaving the code half-broken
 
@@ -200,10 +232,10 @@ Prefer reports that are directly readable in the terminal or chat. Do not target
 ## Modes
 
 ### Quick
-Use for one-file cleanup or a small extraction. Ask clarification questions only if the request leaves material uncertainty, then keep the plan implicit unless the change is risky.
+Use for one-file cleanup or a small extraction. Ask clarification questions only if the request leaves material uncertainty, then keep the plan implicit unless the change is risky. Use the cheat sheet directly and do not load optional references unless blocked.
 
 ### Standard
-Use for multi-file refactors inside one subsystem. Clarify the target outcome only when needed, then write the slices briefly before editing.
+Use for multi-file refactors inside one subsystem. Clarify the target outcome only when needed, then write the slices briefly before editing. Load optional references only if the cheat sheet is insufficient.
 
 ### Deep
 Use for architecture-sensitive or repo-wide refactors. Clarify goals and non-goals whenever they are not already explicit, map contracts first, then execute in stages with explicit verification after each stage.
