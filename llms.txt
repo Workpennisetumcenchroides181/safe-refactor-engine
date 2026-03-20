@@ -1,0 +1,36 @@
+# Safe Refactor Engine
+
+> Language-agnostic refactoring skill for agentic coding workflows.
+
+## Installable Skill
+
+- `skills/safe-refactor-engine/SKILL.md`: primary skill instructions
+- `skills/safe-refactor-engine/agents/openai.yaml`: UI metadata and default prompt
+- `skills/safe-refactor-engine/references/slicing.md`: slice design guidance
+- `skills/safe-refactor-engine/references/patterns.md`: refactor pattern guidance
+- `skills/safe-refactor-engine/references/verification.md`: verification guidance
+- `skills/safe-refactor-engine/references/evaluation.md`: evaluation prompts and rubric context
+- `skills/safe-refactor-engine/references/real-world-validation.md`: real-task validation guidance
+- `skills/safe-refactor-engine/scripts/quick_validate.py`: structural validator
+- `skills/safe-refactor-engine/scripts/score_evaluation.py`: evaluation scoring helper
+
+## Repository Docs
+
+- `README.md`: overview, installation, usage, and validation
+- `CONTRIBUTING.md`: contribution and packaging expectations
+- `references/workflow.md`: repository-level workflow guidance
+- `references/slicing.md`: repository-level slicing guidance
+- `references/verification.md`: repository-level verification guidance
+- `references/patterns.md`: repository-level refactor patterns
+
+## Intended Use
+
+Use this skill when the user wants a safe refactor, structure cleanup, extraction, decomposition, or coupling reduction without unintended behavior changes.
+
+The skill emphasizes:
+
+- clarification of user intent only when ambiguity is real
+- technical grounding through local tools and official docs
+- behavior-preserving slices
+- explicit rollback boundaries
+- per-slice verification

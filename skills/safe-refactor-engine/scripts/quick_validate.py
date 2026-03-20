@@ -8,9 +8,13 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent.parent
+REPO_ROOT = ROOT.parent.parent
 SKILL_MD = ROOT / "SKILL.md"
 OPENAI_YAML = ROOT / "agents" / "openai.yaml"
 SCRIPTS_DIR = ROOT / "scripts"
+README_MD = REPO_ROOT / "README.md"
+CONTRIBUTING_MD = REPO_ROOT / "CONTRIBUTING.md"
+LLMS_TXT = REPO_ROOT / "llms.txt"
 
 
 def fail(message: str) -> None:
@@ -70,6 +74,11 @@ def validate_structure() -> None:
         fail("Missing agents/openai.yaml")
     ok("Found agents/openai.yaml")
 
+    for path in [README_MD, CONTRIBUTING_MD, LLMS_TXT]:
+        if not path.is_file():
+            fail(f"Missing repository file: {path.relative_to(REPO_ROOT)}")
+    ok("Found repository packaging files")
+
 
 def validate_scripts() -> None:
     expected = [
@@ -82,6 +91,29 @@ def validate_scripts() -> None:
     ok(f"Expected scripts exist ({len(expected)})")
 
 
+def validate_repository_docs() -> None:
+    readme_text = README_MD.read_text(encoding="utf-8")
+    contributing_text = CONTRIBUTING_MD.read_text(encoding="utf-8")
+    llms_text = LLMS_TXT.read_text(encoding="utf-8")
+
+    if "## Install" not in readme_text or "## Use" not in readme_text:
+        fail("README.md is missing install or use sections")
+    ok("README.md includes install and use sections")
+
+    if "## Validation" not in contributing_text:
+        fail("CONTRIBUTING.md is missing validation guidance")
+    ok("CONTRIBUTING.md includes validation guidance")
+
+    for required in [
+        "skills/safe-refactor-engine/SKILL.md",
+        "skills/safe-refactor-engine/agents/openai.yaml",
+        "README.md",
+    ]:
+        if required not in llms_text:
+            fail(f"llms.txt is missing entry: {required}")
+    ok("llms.txt includes core repository entries")
+
+
 def main() -> None:
     validate_structure()
     validate_scripts()
@@ -92,6 +124,7 @@ def main() -> None:
     validate_frontmatter(skill_text)
     validate_openai_yaml(yaml_text)
     validate_references(skill_text)
+    validate_repository_docs()
 
     print("PASS: safe-refactor-engine skill structure is valid")
 

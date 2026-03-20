@@ -1,4 +1,4 @@
 interface:
   display_name: "Safe Refactor Engine"
-  short_description: "Safe refactors with slices, rollback, and verification"
-  default_prompt: "Use $safe-refactor-engine to plan, dry-run, or apply a safe refactor for the code in scope."
+  short_description: "Behavior-preserving refactors with slices, rollback, and verification"
+  default_prompt: "Use $safe-refactor-engine to plan, dry-run, or apply a safe refactor for the code in scope. Preserve behavior unless I explicitly request a behavior change."
